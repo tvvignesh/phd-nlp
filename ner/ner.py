@@ -1,7 +1,7 @@
-from transformers import pipeline
+import spacy
 
-# Load the named entity recognition (NER) pipeline
-ner_pipeline = pipeline("ner", grouped_entities=True)
+# Load the English language model with named entity recognition (NER) component
+nlp = spacy.load("en_core_web_sm")
 
 # Example sentences
 sentences = [
@@ -12,14 +12,14 @@ sentences = [
     "The Amazon River is the largest river by discharge volume in the world."
 ]
 
-# Perform named entity recognition on each example sentence
+# Perform named entity recognition (NER) on each example sentence
 for sentence in sentences:
-    # Perform NER on the sentence
-    entities = ner_pipeline(sentence)
+    # Process the sentence with spaCy
+    doc = nlp(sentence)
     
     # Print the named entities detected in the sentence
     print(f"Sentence: {sentence}")
     print("Named Entities:")
-    for entity in entities:
-        print(f"Entity: {entity['entity']}, Type: {entity['entity_group']}, Score: {entity['score']}, Start: {entity['start']}, End: {entity['end']}, Text: {entity['word']}")
+    for ent in doc.ents:
+        print(f"Entity: {ent.text}, Type: {ent.label_}")
     print()
